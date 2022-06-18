@@ -1,0 +1,56 @@
+﻿@using WebApplication1.ViewModel
+@model DepartmentUserViewModel
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+    </tr>
+
+    @foreach (var dept in Model.department)
+    {
+        <tr>
+            <td>@dept.Id</td>
+        </tr>
+
+
+        <tr>
+            <td colspan="2">
+                <table class="table table-bordered table-success">
+                    @{
+                        var usersInDepartment = Model.user.
+                        Where(u => u.DepartmentRefId == dept.Id).
+                        ToList();
+                    }
+                    @if (!usersInDepartment.Any())
+                    {
+                        <tr><td class="text-danger">No Users Found</td></tr>
+                    }
+                    else
+                    {
+                        foreach (var userData in usersInDepartment)
+                        {
+                            <tr>
+                                <td>@userData.Id</td>
+                                <td>@userData.FirstName</td>
+                                <td>@userData.LastName</td>
+                                <td>@userData.DateOfBirth</td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </td>
+        </tr>
+    }
+</table>
